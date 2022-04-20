@@ -37,32 +37,40 @@ document
     }
   });
 
-function addItems(type, desc, value) {
-  const collection = document.querySelector(".collection");
+showItems();
 
-  const time = getFormattedTime();
-  const newHtml = `
-      <div class="item">
-        <div class="item-description-time">
-          <div class="item-description">
-            <p>${desc}</p>
-          </div>
-          <div class="item-time">
-            <p>${time}</p>
-          </div>
+function showItems() {
+  let items = getItemsfromLS();
+
+  const collection = document.querySelector(".collection");
+  for (let item of items) {
+    const newHtml = `
+    <div class="item">
+      <div class="item-description-time">
+        <div class="item-description">
+          <p>${item.desc}</p>
         </div>
-        <div class="item-amount ${
-          type === "-" ? "expense-amount" : "income-amount"
-        }">
-          <p>${type}$${value}</p>
+        <div class="item-time">
+          <p>${item.time}</p>
         </div>
       </div>
-      `;
-  //console.log(newHtml);
-  // document.querySelector(".collection").innerHTML = innerHtml; // change all html
-  collection.insertAdjacentHTML("afterbegin", newHtml);
+      <div class="item-amount ${
+        item.type === "-" ? "expense-amount" : "income-amount"
+      }">
+        <p>${item.type}$${item.value}</p>
+      </div>
+    </div>
+    `;
+    //console.log(newHtml);
+    // document.querySelector(".collection").innerHTML = innerHtml; // change all html
+    collection.insertAdjacentHTML("afterbegin", newHtml);
+  }
+}
 
+function addItems(type, desc, value) {
+  const time = getFormattedTime();
   addItemTols(type, desc, value, time);
+  showItems();
 }
 
 function resetForm() {
@@ -71,7 +79,7 @@ function resetForm() {
   document.querySelector(".add__value").value = "";
 }
 
-function getItemToLS() {
+function getItemsfromLS() {
   let items = localStorage.getItem("items");
   if (items) {
     items = JSON.parse(items);
@@ -82,7 +90,7 @@ function getItemToLS() {
 }
 
 function addItemTols(type, desc, value, time) {
-  let items = getItemToLS();
+  let items = getItemsfromLS();
   items.push({ type, desc, value, time });
   localStorage.setItem("items", JSON.stringify(items));
 }
