@@ -32,12 +32,12 @@ document
     // console.log(type, desc, value);
 
     if (desc && value.length > 0) {
-      addItems(desc, type, value);
+      addItems(type, desc, value);
       resetForm();
     }
   });
 
-function addItems(desc, type, value) {
+function addItems(type, desc, value) {
   const collection = document.querySelector(".collection");
 
   const time = getFormattedTime();
@@ -58,14 +58,31 @@ function addItems(desc, type, value) {
         </div>
       </div>
       `;
-
   //console.log(newHtml);
   // document.querySelector(".collection").innerHTML = innerHtml; // change all html
   collection.insertAdjacentHTML("afterbegin", newHtml);
+
+  addItemTols(type, desc, value, time);
 }
 
 function resetForm() {
   document.querySelector(".add__type").value = "+";
   document.querySelector(".add__description").value = "";
   document.querySelector(".add__value").value = "";
+}
+
+function getItemToLS() {
+  let items = localStorage.getItem("items");
+  if (items) {
+    items = JSON.parse(items);
+  } else {
+    items = [];
+  }
+  return items;
+}
+
+function addItemTols(type, desc, value, time) {
+  let items = getItemToLS();
+  items.push({ type, desc, value, time });
+  localStorage.setItem("items", JSON.stringify(items));
 }
