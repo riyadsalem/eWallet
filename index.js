@@ -1,4 +1,23 @@
 // 🥰🤠🥳🥳💯💯
+function getFormattedTime() {
+  let now = new Date();
+  // console.log(now); // OutPut => Wed Apr 20 2022 14:10:35 GMT+0300 (Eastern European Summer Time)
+  now = new Date().toLocaleTimeString("en-us", {});
+  // console.log(now); // OutPUt => 2:11:07 PM
+
+  now = new Date().toLocaleTimeString("en-us", {
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  // Feb, 06:45 PM >> this is gole
+  // console.log(now); // OUTPUT => Apr 20, 02:12 PM
+  const date = now.split(",")[0].split(" ");
+  const time = now.split(",")[1];
+  return `${date[1]} ${date[0]},${time}`; // output ===> 20 Apr, 02:20 PM
+  // console.log(formattedTime);
+}
 
 document
   .querySelector("#ewallet-form")
@@ -21,6 +40,7 @@ document
 function addItems(desc, type, value) {
   const collection = document.querySelector(".collection");
 
+  const time = getFormattedTime();
   const newHtml = `
       <div class="item">
         <div class="item-description-time">
@@ -28,7 +48,7 @@ function addItems(desc, type, value) {
             <p>${desc}</p>
           </div>
           <div class="item-time">
-            <p>25 Feb, 06:45 PM</p>
+            <p>${time}</p>
           </div>
         </div>
         <div class="item-amount ${
