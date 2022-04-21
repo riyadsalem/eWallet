@@ -57,7 +57,7 @@ function showItems() {
       <div class="item-amount ${
         item.type === "-" ? "expense-amount" : "income-amount"
       }">
-        <p>${item.type}$${item.value}</p>
+        <p>${item.type}$${sep(item.value)}</p>
       </div>
     </div>
     `;
@@ -105,7 +105,9 @@ function showTotalIncome() {
     }
   }
   // console.log(totalIncome);
-  document.querySelector(".income__amount p").innerText = `$${totalIncome}`;
+  document.querySelector(".income__amount p").innerText = `$${sep(
+    totalIncome
+  )}`;
 }
 
 showTotalExpence();
@@ -118,7 +120,9 @@ function showTotalExpence() {
     }
   }
   // console.log(totalExpence);
-  document.querySelector(".expense__amount p").innerText = `$${totalExpence}`;
+  document.querySelector(".expense__amount p").innerText = `$${sep(
+    totalExpence
+  )}`;
 }
 
 showTotalBalance();
@@ -130,7 +134,13 @@ function showTotalBalance() {
       ? (balance += parseInt(item.value))
       : (balance -= parseInt(item.value));
   }
-  document.querySelector(".balance__amount p").innerText = balance;
+  // document.querySelector(".balance__amount p").innerText = balance.toLocaleString(); // Add Separator
+  document.querySelector(".balance__amount p").innerText = sep(balance);
 
   document.querySelector("header").className = balance >= 0 ? "green" : "red";
+}
+
+function sep(amount) {
+  amount = parseInt(amount);
+  return amount.toLocaleString();
 }
