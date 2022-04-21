@@ -120,3 +120,17 @@ function showTotalExpence() {
   // console.log(totalExpence);
   document.querySelector(".expense__amount p").innerText = `$${totalExpence}`;
 }
+
+showTotalBalance();
+function showTotalBalance() {
+  let items = getItemsfromLS();
+  let balance = 0;
+  for (let item of items) {
+    item.type === "+"
+      ? (balance += parseInt(item.value))
+      : (balance -= parseInt(item.value));
+  }
+  document.querySelector(".balance__amount p").innerText = balance;
+
+  document.querySelector("header").className = balance >= 0 ? "green" : "red";
+}
