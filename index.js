@@ -70,7 +70,7 @@ function showItems() {
 function addItems(type, desc, value) {
   const time = getFormattedTime();
   addItemTols(type, desc, value, time);
-  showItems();
+  location.reload();
 }
 
 function resetForm() {
@@ -93,4 +93,30 @@ function addItemTols(type, desc, value, time) {
   let items = getItemsfromLS();
   items.push({ type, desc, value, time });
   localStorage.setItem("items", JSON.stringify(items));
+}
+
+showTotalIncome();
+function showTotalIncome() {
+  let items = getItemsfromLS();
+  let totalIncome = 0;
+  for (let item of items) {
+    if (item.type === "+") {
+      totalIncome += parseInt(item.value);
+    }
+  }
+  // console.log(totalIncome);
+  document.querySelector(".income__amount p").innerText = `$${totalIncome}`;
+}
+
+showTotalExpence();
+function showTotalExpence() {
+  let items = getItemsfromLS();
+  let totalExpence = 0;
+  for (let item of items) {
+    if (item.type === "-") {
+      totalExpence += parseInt(item.value);
+    }
+  }
+  // console.log(totalExpence);
+  document.querySelector(".expense__amount p").innerText = `$${totalExpence}`;
 }
